@@ -1,0 +1,4 @@
+# app/views/hourly_rates/_user_rates_link.html.erb
+<% if User.current.admin? || User.current.allowed_to?(:view_hourly_rates, nil, global: true) %>
+  <%= link_to l(:label_hourly_rates_history), user_hourly_rates_path(@user), class: 'icon icon-money' %>
+<% end %>

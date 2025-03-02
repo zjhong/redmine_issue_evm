@@ -1,5 +1,7 @@
 require "redmine"
 require "holidays/core_extensions/date"
+require "hourly_rates_hook_listener"
+
 
 # Extention for ate class
 class Date
@@ -39,9 +41,16 @@ Redmine::Plugin.register :redmine_issue_evm do
                evmsettings: %i[ndex edit]
     permission :view_project_evmreports,
                evmreports: %i[index show new create edit destroy]
+    # 添加时薪管理权限
+    permission :manage_hourly_rates, hourly_rates: [:index, :new, :create, :edit, :update, :destroy]
+    permission :view_hourly_rates, hourly_rates: [:index, :user_rates]
   end
 
   # menu
+  # 添加管理菜单
+  menu :admin_menu, :hourly_rates, 
+       { controller: 'hourly_rates', action: 'index' }, 
+       caption: :label_hourly_rates, if: Proc.new { User.current.admin? }
   menu :project_menu, :issuevm, { controller: :evms, action: :index },
        caption: :tab_display_name, param: :project_id
 

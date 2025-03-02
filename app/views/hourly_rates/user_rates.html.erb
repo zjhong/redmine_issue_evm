@@ -1,0 +1,25 @@
+<% html_title l(:label_user_hourly_rates, @user.name) %>
+<h2><%= l(:label_user_hourly_rates, @user.name) %></h2>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th><%= l(:field_project) %></th>
+      <th><%= l(:field_rate) %></th>
+      <th><%= l(:field_effective_date) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @hourly_rates.each do |rate| %>
+      <tr>
+        <td><%= rate.project.name %></td>
+        <td><%= rate.rate %></td>
+        <td><%= format_date(rate.effective_date) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to l(:button_back), hourly_rates_path %>
+</p>

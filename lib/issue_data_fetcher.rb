@@ -3,6 +3,26 @@
 # It also collects a selectable list that is optionally specified
 #
 module IssueDataFetcher
+  # 修改获取时间花费的方法
+  def evm_costs(proj, condition = " 1 = 1 ")
+    Issue.cross_project_scope(proj, "descendants").
+      where(SQL_COM.to_s).
+      where(condition).
+      joins(:time_entries).
+      select("time_entries.spent_on, time_entries.hours, time_entries.user_id, time_entries.project_id").
+      group_by(&:spent_on)
+  end
+  
+  # 同样修改父issue的costs方法
+  def parent_issue_costs(issue_id)
+    Issue.joins(SQL_JOIN.to_s).
+      where(SQL_COM.to_s).
+      where(SQL_COM_ANC.to_s).
+      where(ancestors: { id: issue_id }).
+      joins(:time_entries).
+      select("time_entries.spent_on, time_entries.hours, time_entries.user_id, time_entries.project_id").
+      group_by(&:spent_on)
+  end
   # Common condition of issue's select
   SQL_COM = <<-SQL_COM.freeze
   (issues.start_date IS NOT NULL AND issues.due_date IS NOT NULL)

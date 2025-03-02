@@ -184,3 +184,15 @@
   # EVM of assignee
   no_assignee: no assigned
   estimated_working_hours: Estimated working hours
+
+  # Hourly Rates
+
+  label_hourly_rates: Hourly Rates
+  label_hourly_rates_history: Hourly Rates History
+  label_hourly_rate_new: New Hourly Rate
+  label_hourly_rate_edit: Edit Hourly Rate
+  label_effective_date: Effective Date
+  label_end_date: End Date
+  label_global_rate: Global Rate
+  label_project_specific_rate: Project Specific Rate
+  error_hourly_rate_overlap: cannot overlap with an existing rate

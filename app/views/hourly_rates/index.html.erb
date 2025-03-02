@@ -1,0 +1,30 @@
+<% html_title l(:label_hourly_rates) %>
+<h2><%= l(:label_hourly_rates) %></h2>
+
+<%= render partial: 'form' %>
+
+<table class="list">
+  <thead>
+    <tr>
+      <th><%= l(:field_user) %></th>
+      <th><%= l(:field_project) %></th>
+      <th><%= l(:field_rate) %></th>
+      <th><%= l(:field_effective_date) %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @hourly_rates.each do |rate| %>
+      <tr>
+        <td><%= rate.user.name %></td>
+        <td><%= rate.project.name %></td>
+        <td><%= rate.rate %></td>
+        <td><%= format_date(rate.effective_date) %></td>
+        <td class="buttons">
+          <%= link_to l(:button_edit), edit_hourly_rate_path(rate), class: 'icon icon-edit' %>
+          <%= link_to l(:button_delete), rate, method: :delete, data: { confirm: l(:text_are_you_sure) }, class: 'icon icon-del' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
