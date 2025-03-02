@@ -1,6 +1,6 @@
 require "redmine"
 require "holidays/core_extensions/date"
-require "hourly_rates_hook_listener"
+require_relative "lib/hourly_rates_hook_listener"
 
 
 # Extention for ate class
@@ -48,9 +48,12 @@ Redmine::Plugin.register :redmine_issue_evm do
 
   # menu
   # 添加管理菜单
+  # 添加管理菜单，包含图标
   menu :admin_menu, :hourly_rates, 
-       { controller: 'hourly_rates', action: 'index' }, 
-       caption: :label_hourly_rates, if: Proc.new { User.current.admin? }
+  { controller: 'hourly_rates', action: 'index' }, 
+  caption: :label_hourly_rates, 
+  html: { class: 'icon icon-money' },
+  if: Proc.new { User.current.admin? }
   menu :project_menu, :issuevm, { controller: :evms, action: :index },
        caption: :tab_display_name, param: :project_id
 

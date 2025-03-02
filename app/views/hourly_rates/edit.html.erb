@@ -1,8 +1,13 @@
-<% html_title l(:label_edit_hourly_rate) %>
-<h2><%= l(:label_edit_hourly_rate) %></h2>
+<h2><%= l(:label_hourly_rate_edit) %></h2>
 
-<%= render partial: 'form' %>
+<%= form_for @hourly_rate do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= submit_tag l(:button_save) %>
+<% end %>
 
-<p>
-  <%= link_to l(:button_back), hourly_rates_path %>
-</p>
+<% content_for :sidebar do %>
+  <h3><%= l(:label_hourly_rates) %></h3>
+  <p><%= l(:text_hourly_rate_edit_info) %></p>
+<% end %>
+
+<% html_title l(:label_hourly_rate_edit) %>

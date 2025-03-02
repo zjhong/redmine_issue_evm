@@ -1,25 +1,48 @@
-<% html_title l(:label_user_hourly_rates, @user.name) %>
-<h2><%= l(:label_user_hourly_rates, @user.name) %></h2>
+<% html_title(l(:label_hourly_rates_history) + " - " + @user.name) %>
 
-<table class="list">
-  <thead>
-    <tr>
-      <th><%= l(:field_project) %></th>
-      <th><%= l(:field_rate) %></th>
-      <th><%= l(:field_effective_date) %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @hourly_rates.each do |rate| %>
+<div class="contextual">
+  <%= link_to l(:label_hourly_rate_new), new_hourly_rate_path(user_id: @user.id), class: 'icon icon-add' %>
+  <%= link_to l(:label_hourly_rates), hourly_rates_path, class: 'icon icon-list' %>
+</div>
+
+<h2><%= l(:label_hourly_rates_history) %> - <%= link_to @user.name, user_path(@user) %></h2>
+
+<% if @rates.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  <table class="list">
+    <thead>
       <tr>
-        <td><%= rate.project.name %></td>
-        <td><%= rate.rate %></td>
-        <td><%= format_date(rate.effective_date) %></td>
+        <th><%= l(:field_project) %></th>
+        <th><%= l(:label_effective_date) %></th>
+        <th><%= l(:label_end_date) %></th>
+        <th><%= l(:field_rate) %></th>
+        <th><%= l(:field_comments) %></th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @rates.each do |rate| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td><%= rate.project ? link_to(rate.project.name, project_path(rate.project)) : l(:label_global_rate) %></td>
+          <td><%= format_date(rate.effective_date) %></td>
+          <td><%= rate.end_date ? format_date(rate.end_date) : l(:label_no_end_date) %></td>
+          <td align="right"><%= rate.rate %></td>
+          <td><%= rate.comment %></td>
+          <td class="buttons">
+            <%= link_to l(:button_edit), edit_hourly_rate_path(rate), class: 'icon icon-edit' %>
+            <%= link_to l(:button_delete), hourly_rate_path(rate), 
+                method: :delete, 
+                data: { confirm: l(:text_are_you_sure) }, 
+                class: 'icon icon-del' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
-<p>
-  <%= link_to l(:button_back), hourly_rates_path %>
-</p>
+<% content_for :sidebar do %>
+  <h3><%= l(:label_hourly_rates) %></h3>
+  <p><%= l(:text_hourly_rates_history_info) %></p>
+<% end %>

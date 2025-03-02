@@ -1,4 +1,13 @@
-<% html_title l(:label_new_hourly_rate) %>
-<h2><%= l(:label_new_hourly_rate) %></h2>
+<h2><%= l(:label_hourly_rate_new) %></h2>
 
-<%= render partial: 'form' %>
+<%= form_for @hourly_rate do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= submit_tag l(:button_create) %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <h3><%= l(:label_hourly_rates) %></h3>
+  <p><%= l(:text_hourly_rate_new_info) %></p>
+<% end %>
+
+<% html_title l(:label_hourly_rate_new) %>

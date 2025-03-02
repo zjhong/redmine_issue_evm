@@ -1,30 +1,49 @@
-<%= form_for @hourly_rate do |f| %>
-  <%= error_messages_for 'hourly_rate' %>
+<%= error_messages_for 'hourly_rate' %>
 
-  <div class="box tabular">
-    <p>
-      <%= f.label :user_id, l(:field_user) %>
-      <%= f.select :user_id, options_from_collection_for_select(User.active, :id, :name, @hourly_rate.user_id), include_blank: true %>
-    </p>
-
-    <p>
-      <%= f.label :project_id, l(:field_project) %>
-      <%= f.select :project_id, options_from_collection_for_select(Project.visible, :id, :name, @hourly_rate.project_id), include_blank: true %>
-    </p>
-
-    <p>
-      <%= f.label :rate, l(:field_rate) %>
-      <%= f.text_field :rate, size: 10 %>
-    </p>
-
-    <p>
-      <%= f.label :effective_date, l(:field_effective_date) %>
-      <%= f.text_field :effective_date, size: 10 %><%= calendar_for('hourly_rate_effective_date') %>
-    </p>
-  </div>
-
+<div class="box tabular">
   <p>
-    <%= f.submit l(:button_save) %>
-    <%= link_to l(:button_cancel), hourly_rates_path %>
+    <%= f.label :user_id, l(:field_user) %>
+    <% if f.object.new_record? %>
+      <% users = User.active.sorted rescue [] %>
+      <%= f.select :user_id, 
+                 users.collect{|u| [u.name, u.id]}, 
+                 { prompt: "-- 请选择用户 --" },
+                 { required: true, disabled: params[:user_id].present? } %>
+      <% if params[:user_id].present? %>
+        <%= f.hidden_field :user_id, value: params[:user_id] %>
+      <% end %>
+    <% else %>
+      <%= text_field_tag :user_name, f.object.user.try(:name), disabled: true %>
+      <%= f.hidden_field :user_id %>
+    <% end %>
   </p>
-<% end %>
+  
+  <p>
+  <%= f.label :project_id, l(:field_project) %>
+  <% projects = Project.visible.sorted rescue [] %>
+  <%= f.select :project_id, 
+             [[l(:label_global_rate), nil]] + projects.collect{|p| [p.name, p.id]}, 
+             { include_blank: false } %>
+  </p>
+  
+  <p>
+    <%= f.label :rate, l(:field_rate) %>
+    <%= f.text_field :rate, size: 5, required: true %>
+  </p>
+  
+  <p>
+    <%= f.label :effective_date, l(:label_effective_date) %>
+    <%= f.date_field :effective_date, required: true %>
+  </p>
+  
+  <p>
+    <%= f.label :end_date, l(:label_end_date) %>
+    <%= f.date_field :end_date %>
+    <em class="info"><%= l(:text_end_date_empty_info) %></em>
+  </p>
+  
+  <p>
+    <%= f.label :comment, l(:field_comments) %>
+    <%= f.text_area :comment, rows: 4, class: 'wiki-edit' %>
+  </p>
+</div>

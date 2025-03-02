@@ -9,7 +9,7 @@ class HourlyRatesController < ApplicationController
       @rates_by_user = {}
       
       @users.each do |user|
-        @rates_by_user[user.id] = HourlyRate.for_user(user.id)
+        @rates_by_user[user.id] = HourlyRate.where(user_id: user.id)
           .order(effective_date: :desc, project_id: :asc)
       end
     end
@@ -19,6 +19,12 @@ class HourlyRatesController < ApplicationController
       @hourly_rate.effective_date = Date.today
       @users = User.active.sorted
       @projects = Project.visible.sorted
+      
+      # 如果用户ID通过参数传递，则预设用户
+      if params[:user_id].present?
+        user = User.find_by(id: params[:user_id])
+        @hourly_rate.user_id = user.id if user
+      end
     end
     
     def create

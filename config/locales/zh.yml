@@ -186,3 +186,19 @@ zh:
   # EVM of assignee
   no_assignee: 没有负责人
   estimated_working_hours: Estimated working hours
+
+  # 时薪
+
+  label_hourly_rates: 时薪管理
+  label_hourly_rate_new: 新建时薪
+  label_hourly_rate_edit: 编辑时薪
+  label_effective_date: 生效日期
+  label_end_date: 结束日期
+  label_global_rate: 全局时薪
+  label_hourly_rates_history: 时薪历史记录
+  field_rate: 时薪率
+  text_hourly_rate_new_info: 为用户创建新的时薪
+  text_hourly_rate_edit_info: 编辑时薪详情
+  text_hourly_rates_history_info: 查看此用户的历史时薪
+  text_end_date_empty_info: 留空表示当前有效的时薪
+  label_no_end_date: 无结束日期

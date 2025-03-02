@@ -188,11 +188,15 @@
   # Hourly Rates
 
   label_hourly_rates: Hourly Rates
-  label_hourly_rates_history: Hourly Rates History
   label_hourly_rate_new: New Hourly Rate
   label_hourly_rate_edit: Edit Hourly Rate
   label_effective_date: Effective Date
   label_end_date: End Date
   label_global_rate: Global Rate
-  label_project_specific_rate: Project Specific Rate
-  error_hourly_rate_overlap: cannot overlap with an existing rate
+  label_hourly_rates_history: Hourly Rates History
+  field_rate: Rate
+  text_hourly_rate_new_info: Create a new hourly rate for a user
+  text_hourly_rate_edit_info: Edit hourly rate details
+  text_hourly_rates_history_info: View historical hourly rates for this user
+  text_end_date_empty_info: Leave empty for currently active rate
+  label_no_end_date: No End Date
