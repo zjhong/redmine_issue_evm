@@ -14,6 +14,8 @@
   <%= l(:label_exclude_holidays) %><br>
   <%=l(:label_region)%>
   <%= f.select :region, options_for_select(Holidays.available_regions, :selected => evm_setting.region) %><br>
+  <%= f.check_box :hourly_rate_enabled,{},checked_value = "true",unchecked_value = "false" %>
+  <%= l(:label_enable_hourly_rate) %><br>
 </fieldset>
 <br>
 <fieldset><legend><%= l(:label_calculate) %></legend>

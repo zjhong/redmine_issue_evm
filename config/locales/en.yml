@@ -121,6 +121,7 @@
   label_calc_method1: Optimistic
   label_calc_method2: Normal
   label_calc_method3: Pessimistic
+  label_enable_hourly_rate: Enable hourly rate calculation
 
   # Message
   message_delete_baseline: Remove baseline, are you sure?
@@ -200,3 +201,19 @@
   text_hourly_rates_history_info: View historical hourly rates for this user
   text_end_date_empty_info: Leave empty for currently active rate
   label_no_end_date: No End Date
+
+  # Labels
+  label_hourly_rate: Hourly rate
+  label_cost: Cost
+  label_metric: Metric
+  label_hours: Hours
+  
+  # Subtitles
+  subtitle_project_summary: Project Summary with EVM
+  subtitle_evm_summary: EVM Summary
+  subtitle_project_metrics: Project Metrics
+  subtitle_difference: Difference
+  subtitle_basis_indicator: Basis Indicator
+  subtitle_performance_indicator: Performance Indicator
+  subtitle_forecast_indicator: Forecast Indicator
+  subtitle_evm_indicators: Elements of Earned Value Management

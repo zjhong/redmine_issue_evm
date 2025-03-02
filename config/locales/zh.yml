@@ -1,4 +1,4 @@
-﻿# chinese translation
+﻿﻿# chinese translation
 zh:
   # main title
   title_evm_tab: Track with EVM
@@ -64,6 +64,8 @@ zh:
   # Option - common
   label_basis_date: 基准日期
   label_finished_date: Finished date
+  label_hourly_rate: 时薪
+  label_enable_hourly_rate: 启用时薪计算
   # Option - main
   label_baseline_use: 使用基线计算EVM
   label_no_use_baseline: 不使用
@@ -202,3 +204,18 @@ zh:
   text_hourly_rates_history_info: 查看此用户的历史时薪
   text_end_date_empty_info: 留空表示当前有效的时薪
   label_no_end_date: 无结束日期
+
+  # Chinese strings go here for Rails i18n
+  label_cost: 成本
+  label_metric: 指标
+  label_hours: 工时
+  
+  # Subtitles
+  subtitle_project_summary: 项目EVM摘要
+  subtitle_evm_summary: EVM摘要
+  subtitle_project_metrics: 项目指标
+  subtitle_difference: 差异
+  subtitle_basis_indicator: 基础指标
+  subtitle_performance_indicator: 性能指标
+  subtitle_forecast_indicator: 预测指标
+  subtitle_evm_indicators: 挣值管理要素
