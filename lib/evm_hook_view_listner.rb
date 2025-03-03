@@ -6,7 +6,7 @@ class EvmHookViewListner < Redmine::Hook::ViewListener
   include CalculateEvmLogic
 
   # plugin's css use all pages
-  render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', :plugin => :redmine_issue_evm %>"
+  render_on :view_layouts_base_html_head, inline: "<%= stylesheet_link_tag 'issue_evm', 'tooltip', :plugin => :redmine_issue_evm %>"
 
   # View hooks
   # view_projects_show_left

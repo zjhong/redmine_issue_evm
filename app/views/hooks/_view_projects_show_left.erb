@@ -11,14 +11,16 @@
     </ul>
     <table id='evm-indicator-value-table' border='1' bordercolor = '#bbb'>
       <tr>
-        <th>BAC</th>
-        <th>PV</th>
-        <th>EV</th>
-        <th>AC</th>
-        <th>SV</th>
-        <th>CV</th>
-        <th>SPI</th>
-        <th>CPI</th>
+      
+        <th><span class="tooltip">BAC<span class="tooltiptext"><%=l(:tooltip_bac)%></span></span></th>
+        <th><span class="tooltip">PV<span class="tooltiptext"><%=l(:tooltip_pv)%></span></span></th>
+        <th><span class="tooltip">EV<span class="tooltiptext"><%=l(:tooltip_ev)%></span></span></th>
+        <th><span class="tooltip">AC<span class="tooltiptext"><%=l(:tooltip_ac)%></span></span></th>
+        <th><span class="tooltip">SV<span class="tooltiptext"><%=l(:tooltip_sv)%></span></span></th>
+        <th><span class="tooltip">CV<span class="tooltiptext"><%=l(:tooltip_cv)%></span></span></th>
+        <th><span class="tooltip">SPI<span class="tooltiptext"><%=l(:tooltip_spi)%></span></span></th>
+        <th><span class="tooltip">CPI<span class="tooltiptext"><%=l(:tooltip_cpi)%></span></span></th>
+      
       </tr>
       <tr>
         <td><%= evm.bac %></td>
