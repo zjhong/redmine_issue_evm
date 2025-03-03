@@ -14,4 +14,7 @@ Rails.application.routes.draw do
   # 小时费率管理
   resources :hourly_rates
   get 'users/:user_id/hourly_rates', to: 'hourly_rates#user_rates', as: 'user_hourly_rates'
+  
+  # 添加所有项目的 EVM 路由
+  get 'all_projects_evm', to: 'all_projects_evm#index'
 end

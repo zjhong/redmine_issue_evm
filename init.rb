@@ -56,6 +56,12 @@ Redmine::Plugin.register :redmine_issue_evm do
   if: Proc.new { User.current.admin? }
   menu :project_menu, :issuevm, { controller: :evms, action: :index },
        caption: :tab_display_name, param: :project_id
+  
+  # 添加顶部菜单
+  menu :top_menu, :evm, 
+  { controller: 'all_projects_evm', action: 'index' }, 
+  caption: "EVM", 
+  if: Proc.new { User.current.logged? }
 
   # load holidays
   Holidays.load_all

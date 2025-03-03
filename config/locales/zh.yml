@@ -1,4 +1,4 @@
-﻿﻿# chinese translation
+﻿# chinese translation
 zh:
   # main title
   title_evm_tab: Track with EVM
@@ -245,3 +245,8 @@ zh:
   tooltip_tpi: "时间绩效指数 (TPI)：基于挣值进度衡量时间利用效率。TPI = ES/AT。值 > 1 表示进度提前，< 1 表示进度滞后。"
   tooltip_teac: "完工时间估算 (TEAC)：基于当前时间绩效估计的项目总持续时间。TEAC = SAC / TPI。"
   tooltip_tvac: "完工时间偏差 (TVAC)：表示项目是否将提前或滞后于计划完成。TVAC = SAC - TEAC。正值表示进度提前，负值表示进度滞后。"
+
+  # 菜单项
+  top_menu_evm: "EVM"
+  all_projects_evm_title: "所有项目的 EVM 汇总"
+  all_projects_evm_description: "显示所有项目的挣值管理计算汇总"

@@ -205,3 +205,34 @@ dt.evmreports-edit {
 .tab-switch {
   display: none;
 }
+
+/* 所有项目 EVM 汇总页面样式 */
+.project-evm {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.project-evm h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #2996cc;
+}
+
+.project-evm table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.project-evm table th,
+.project-evm table td {
+  text-align: center;
+  padding: 5px;
+}
+
+.project-evm hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #ddd;
+}

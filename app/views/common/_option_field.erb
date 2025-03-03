@@ -22,12 +22,7 @@
           <%= date_field_tag("basis_date", @cfg_param[:basis_date], size: 8) %><%= calendar_for("basis_date") %>
         </fieldset>
       </div>
-      <!-- hourly rate option -->
-      <div class="evm-div-col">
-        <fieldset><legend><%= l(:label_hourly_rate) %></legend>
-          <%= check_box_tag("hourly_rate_enabled", 1, @cfg_param[:hourly_rate_enabled]) %> <%= l(:label_enable_hourly_rate) %>
-        </fieldset>
-      </div>
+      <!-- 已移除时薪选项 -->
 
       <!-- additional option of each page -->
       <%= yield :additional_option %>

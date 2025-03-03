@@ -243,3 +243,8 @@
   tooltip_tpi: "Time Performance Index (TPI): Measures efficiency of time utilization based on earned schedule. TPI = ES/AT. Value > 1 means ahead of schedule, < 1 means behind schedule."
   tooltip_teac: "Time Estimate At Completion (TEAC): Estimated total duration of the project based on current time performance. TEAC = SAC / TPI."
   tooltip_tvac: "Time Variance At Completion (TVAC): Indicates whether the project will finish ahead or behind schedule. TVAC = SAC - TEAC. Positive value means ahead of schedule, negative means behind schedule."
+
+  # Menu items
+  top_menu_evm: "EVM"
+  all_projects_evm_title: "EVM Summary for All Projects"
+  all_projects_evm_description: "Show earned value management calculation summary for all projects"

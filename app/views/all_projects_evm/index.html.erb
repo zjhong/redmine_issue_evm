@@ -1,0 +1,98 @@
+<% html_title(l(:all_projects_evm_title)) %>
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "issue_evm", plugin: "redmine_issue_evm" %>
+  <%= stylesheet_link_tag "tooltip", plugin: "redmine_issue_evm" %>
+  <%= javascript_include_tag "Chart.bundle.min.js", plugin: "redmine_issue_evm" %>
+  <%= javascript_include_tag "chartjs-plugin-annotation.min.js", plugin: "redmine_issue_evm" %>
+<% end %>
+
+<h2><%= l(:all_projects_evm_title) %></h2>
+<p class="description"><%= l(:all_projects_evm_description) %></p>
+
+<% if @project_evms.empty? %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+  <div class="box">
+    <h3><%= l(:subtitle_evm_indicators) %></h3>
+    <% @projects.each do |project| %>
+      <% next unless @project_evms[project.id].present? %>
+      <div class="project-evm">
+        <h4><%= link_to project.name, project_path(project) %></h4>
+        <% if @project_evms[project.id].present? %>
+          <ul>
+            <li><%= l(:indicator_table_header_date)%>: <%= @project_evms[project.id].basis_date %></li>
+            <li><%= l(:label_baseline) %>: <%= @baseline_subjects[project.id] %></li>
+          </ul>
+          <table id='evm-indicator-value-table' border='1' bordercolor = '#bbb'>
+            <tr>
+              <th rowspan="2"><%= l(:indicator_table_header_date) %></th>
+              <th colspan="5"><%= l(:indicator_table_header_today) %></th>
+              <th colspan="2"><%= l(:indicator_table_header_difference) %></th>
+              <th colspan="3"><%= l(:indicator_table_header_performance) %></th>
+              <th colspan="4"><%= l(:indicator_table_header_forecast) %></th>
+            </tr>
+            <tr>
+              <th><span class="tooltip">BAC<span class="tooltiptext"><%=l(:tooltip_bac)%></span></span></th>
+              <th><span class="tooltip">Complete EV<span class="tooltiptext"><%=l(:tooltip_complete_ev)%></span></span></th>
+              <th><span class="tooltip">PV<span class="tooltiptext"><%=l(:tooltip_pv)%></span></span></th>
+              <th><span class="tooltip">EV<span class="tooltiptext"><%=l(:tooltip_ev)%></span></span></th>
+              <th><span class="tooltip">AC<span class="tooltiptext"><%=l(:tooltip_ac)%></span></span></th>
+              <th><span class="tooltip">SV<span class="tooltiptext"><%=l(:tooltip_sv)%></span></span></th>
+              <th><span class="tooltip">CV<span class="tooltiptext"><%=l(:tooltip_cv)%></span></span></th>
+              <th><span class="tooltip">SPI<span class="tooltiptext"><%=l(:tooltip_spi)%></span></span></th>
+              <th><span class="tooltip">CPI<span class="tooltiptext"><%=l(:tooltip_cpi)%></span></span></th>
+              <th><span class="tooltip">CR<span class="tooltiptext"><%=l(:tooltip_cr)%></span></span></th>
+              <th><span class="tooltip">EAC<span class="tooltiptext"><%=l(:tooltip_eac)%></span></span></th>
+              <th><span class="tooltip">ETC<span class="tooltiptext"><%=l(:tooltip_etc)%></span></span></th>
+              <th><span class="tooltip">VAC<span class="tooltiptext"><%=l(:tooltip_vac)%></span></span></th>
+              <th><span class="tooltip">TCPI<span class="tooltiptext"><%=l(:tooltip_tcpi)%></span></span></th>
+            </tr>
+            <tr>
+              <td rowspan="<%= @working_hours[project.id].present? ? '2' : '1' %>"><%= @project_evms[project.id].basis_date %></td>
+              <td><%= @project_evms[project.id].bac %></td>
+              <td><%= @project_evms[project.id].complete_ev %></td>
+              <td><%= @project_evms[project.id].today_pv %></td>
+              <td><%= @project_evms[project.id].today_ev %></td>
+              <td><%= @project_evms[project.id].today_ac %></td>
+              <td><%= @project_evms[project.id].today_sv %></td>
+              <td><%= @project_evms[project.id].today_cv %></td>
+              <td><%= @project_evms[project.id].today_spi %></td>
+              <td><%= @project_evms[project.id].today_cpi %></td>
+              <td><%= @project_evms[project.id].today_cr %></td>
+              <td><%= @project_evms[project.id].eac %></td>
+              <td><%= @project_evms[project.id].etc %></td>
+              <td><%= @project_evms[project.id].vac %></td>
+              <td><%= @project_evms[project.id].tcpi %></td>
+            </tr>
+            <% if @working_hours[project.id].present? %>
+            <tr>
+              <td><%= @project_evms[project.id].bac(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].complete_ev(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_pv(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_ev(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_ac(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_sv(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_cv(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_spi(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_cpi(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].today_cr(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].eac(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].etc(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].vac(@working_hours[project.id]) %></td>
+              <td><%= @project_evms[project.id].tcpi(@working_hours[project.id]) %></td>
+            </tr>
+            <% end %>
+          </table>
+          <p>
+            <%= l(:explanation_upper_row) %> <%= l(:explanation_lower_row) %>
+          </p>
+        <% else %>
+          <p class='nodata'>
+            <%= l(:label_no_evm_setting) %>
+          </p>
+        <% end %>
+      </div>
+      <hr>
+    <% end %>
+  </div>
+<% end %> 
