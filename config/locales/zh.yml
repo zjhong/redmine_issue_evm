@@ -59,6 +59,7 @@ zh:
   # Indicator table legend
   explanation_upper_row: 上面一行按小时计算。
   explanation_lower_row: 下面一行按天数计算。
+  explanation_cost_row: 最下面一行是基于时薪的成本计算。
   explanation_es_unit: days
 
   # Option - common
@@ -219,3 +220,28 @@ zh:
   subtitle_performance_indicator: 性能指标
   subtitle_forecast_indicator: 预测指标
   subtitle_evm_indicators: 挣值管理要素
+  
+  # 挣值管理指标工具提示
+  tooltip_bac: "完工预算 (BAC)：分配给项目的总预算。这是项目的总计划价值。"
+  tooltip_complete_ev: "完成率：截至报告日期已完成的工作百分比，计算方式为 EV/BAC。"
+  tooltip_pv: "计划值 (PV)：截至报告日期计划/安排的工作总成本。表示根据计划应该完成的工作量。"
+  tooltip_ev: "挣值 (EV)：截至报告日期已完成/执行的工作总成本。表示实际完成的工作价值。"
+  tooltip_ac: "实际成本 (AC)：截至报告日期完成工作所花费的总成本。表示为实现当前进度所花费的成本。"
+  tooltip_sv: "进度偏差 (SV)：表示项目是否提前或滞后于计划。SV = EV - PV。正值表示进度提前，负值表示进度滞后。"
+  tooltip_cv: "成本偏差 (CV)：表示项目是否低于或超出预算。CV = EV - AC。正值表示低于预算，负值表示超出预算。"
+  tooltip_spi: "进度绩效指数 (SPI)：衡量时间利用效率。SPI = EV/PV。值 > 1 表示进度提前，< 1 表示进度滞后。"
+  tooltip_cpi: "成本绩效指数 (CPI)：衡量成本利用效率。CPI = EV/AC。值 > 1 表示低于预算，< 1 表示超出预算。"
+  tooltip_cr: "关键比率 (CR)：综合绩效指数。CR = SPI * CPI。值 > 1 表示良好绩效，< 1 表示绩效不佳。"
+  tooltip_eac: "完工估算 (EAC)：基于当前绩效估计的项目完工总成本。EAC = AC + ETC。"
+  tooltip_etc: "完工尚需估算 (ETC)：完成项目剩余部分所需的估计成本。ETC = (BAC - EV) / CPI。"
+  tooltip_vac: "完工偏差 (VAC)：表示项目是否将低于或超出预算完成。VAC = BAC - EAC。正值表示低于预算，负值表示超出预算。"
+  tooltip_tcpi: "完工尚需绩效指数 (TCPI)：项目剩余部分达到预算目标所需的效率。TCPI = (BAC - EV) / (BAC - AC)。"
+  
+  # 挣值进度指标工具提示
+  tooltip_sac: "完工进度 (SAC)：项目的原计划完成持续时间（天数）。"
+  tooltip_es: "挣值进度 (ES)：从项目开始到 PV 应等于当前 EV 值的日期的持续时间。"
+  tooltip_at: "实际时间 (AT)：从项目开始到状态日期的持续时间。"
+  tooltip_tv: "时间偏差 (TV)：表示项目在时间基础上是否提前或滞后于计划。TV = ES - AT。正值表示进度提前，负值表示进度滞后。"
+  tooltip_tpi: "时间绩效指数 (TPI)：基于挣值进度衡量时间利用效率。TPI = ES/AT。值 > 1 表示进度提前，< 1 表示进度滞后。"
+  tooltip_teac: "完工时间估算 (TEAC)：基于当前时间绩效估计的项目总持续时间。TEAC = SAC / TPI。"
+  tooltip_tvac: "完工时间偏差 (TVAC)：表示项目是否将提前或滞后于计划完成。TVAC = SAC - TEAC。正值表示进度提前，负值表示进度滞后。"

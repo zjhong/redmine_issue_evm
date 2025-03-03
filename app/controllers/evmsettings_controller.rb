@@ -58,6 +58,7 @@ class EvmsettingsController < BaseevmController
                                        :region,
                                        :threshold_spi,
                                        :threshold_cpi,
-                                       :threshold_cr)
+                                       :threshold_cr,
+                                       :hourly_rate_enabled)
   end
 end

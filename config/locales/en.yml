@@ -57,6 +57,7 @@
   # Indicator table legend
   explanation_upper_row: Upper row is hours.
   explanation_lower_row: Lower row is days.
+  explanation_cost_row: Bottom row is cost based on hourly rate.
   explanation_es_unit: days
 
   # Option - common
@@ -217,3 +218,28 @@
   subtitle_performance_indicator: Performance Indicator
   subtitle_forecast_indicator: Forecast Indicator
   subtitle_evm_indicators: Elements of Earned Value Management
+  
+  # Tooltips for EVM indicators
+  tooltip_bac: "Budget At Completion (BAC): Total budget allocated to the project. This is the total planned value for the project."
+  tooltip_complete_ev: "Complete EV: The percentage of work which has been completed by the reporting date, calculated as EV/BAC."
+  tooltip_pv: "Planned Value (PV): Total cost of the work scheduled/planned as of the reporting date. Represents what should have been accomplished according to the plan."
+  tooltip_ev: "Earned Value (EV): Total cost of the work completed/performed as of the reporting date. Represents the value of work actually completed."
+  tooltip_ac: "Actual Cost (AC): Total cost taken to complete the work as of the reporting date. Represents what has been spent to achieve the current progress."
+  tooltip_sv: "Schedule Variance (SV): Indicates whether the project is ahead or behind schedule. SV = EV - PV. Positive value means ahead of schedule, negative means behind schedule."
+  tooltip_cv: "Cost Variance (CV): Indicates whether the project is under or over budget. CV = EV - AC. Positive value means under budget, negative means over budget."
+  tooltip_spi: "Schedule Performance Index (SPI): Measures efficiency of time utilization. SPI = EV/PV. Value > 1 means ahead of schedule, < 1 means behind schedule."
+  tooltip_cpi: "Cost Performance Index (CPI): Measures efficiency of cost utilization. CPI = EV/AC. Value > 1 means under budget, < 1 means over budget."
+  tooltip_cr: "Critical Ratio (CR): Combined performance index. CR = SPI * CPI. Value > 1 means good performance, < 1 means poor performance."
+  tooltip_eac: "Estimate At Completion (EAC): Estimated total cost of the project at completion based on current performance. EAC = AC + ETC."
+  tooltip_etc: "Estimate To Complete (ETC): Estimated cost required to complete the remainder of the project. ETC = (BAC - EV) / CPI."
+  tooltip_vac: "Variance At Completion (VAC): Indicates whether the project will finish under or over budget. VAC = BAC - EAC. Positive value means under budget, negative means over budget."
+  tooltip_tcpi: "To Complete Performance Index (TCPI): Efficiency needed for the remainder of the project to achieve the budget goal. TCPI = (BAC - EV) / (BAC - AC)."
+  
+  # Tooltips for ES indicators
+  tooltip_sac: "Schedule At Completion (SAC): The original planned completion duration (days) of the project."
+  tooltip_es: "Earned Schedule (ES): The duration from the beginning of the project to the date on which the PV should have been equal to the current value of EV."
+  tooltip_at: "Actual Time (AT): The duration from the beginning of the project to the status date."
+  tooltip_tv: "Time Variance (TV): Indicates whether the project is ahead or behind schedule on a time basis. TV = ES - AT. Positive value means ahead of schedule, negative means behind schedule."
+  tooltip_tpi: "Time Performance Index (TPI): Measures efficiency of time utilization based on earned schedule. TPI = ES/AT. Value > 1 means ahead of schedule, < 1 means behind schedule."
+  tooltip_teac: "Time Estimate At Completion (TEAC): Estimated total duration of the project based on current time performance. TEAC = SAC / TPI."
+  tooltip_tvac: "Time Variance At Completion (TVAC): Indicates whether the project will finish ahead or behind schedule. TVAC = SAC - TEAC. Positive value means ahead of schedule, negative means behind schedule."
