@@ -13,6 +13,8 @@
   label_nav_evm_setting: Common setting
   label_nav_report: Project report
   label_nav_report_list: Report list
+  label_nav_coverage: Budget Coverage
+  label_name: Name
 
   # Main page
   subtitle_evm_summary: Summary
@@ -285,3 +287,21 @@
   text_spi_explanation: "Schedule Performance Index (SPI): Completed work / Planned value, >1 means ahead of schedule"
   text_cpi_explanation: "Cost Performance Index (CPI): Completed work / Actual cost, >1 means under budget"
   text_cr_explanation: "Critical Ratio (CR): SPI × CPI, >1 means good overall performance"
+
+  # Budget Coverage
+  label_budget_coverage: "Budget Coverage"
+  label_month: "Select Month"
+  button_apply: "Apply"
+  label_working_days: "Working Days"
+  label_budget_days: "Budget Days"
+  label_actual_days: "Actual Days"
+  label_actual_coverage: "Actual Coverage"
+  label_coverage_legend: "Legend"
+  label_coverage_explanation: "Explanation"
+  
+  text_working_days_explanation: "Actual working days in the selected month (excluding weekends and holidays)"
+  text_budget_days_explanation: "Working days calculated from estimated hours (8 hours/day)"
+  text_actual_days_explanation: "Working days calculated from actual logged hours (8 hours/day)"
+  text_budget_coverage_explanation: "Percentage of budget days to total working days, reflecting work planning adequacy"
+  text_actual_coverage_explanation: "Percentage of actual days to total working days, reflecting work execution"
+  text_coverage_explanation: "This page shows each member's work budget and actual situation for the selected month, helping to understand work planning adequacy and actual execution. Green indicates coverage >=80%, orange indicates coverage >=50%, red indicates coverage <50%."

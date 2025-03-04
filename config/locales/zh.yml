@@ -14,6 +14,8 @@ zh:
   label_nav_evm_setting: Common setting
   label_nav_report: Project report
   label_nav_report_list: Report list
+  label_nav_coverage: 预算覆盖率
+  label_name: 姓名
 
   # Main page
   subtitle_evm_summary: 概览
@@ -306,3 +308,26 @@ zh:
   text_spi_explanation: "进度绩效(SPI)：完成工作量 / 计划工时，>1表示进度超前，<1表示进度滞后"
   text_cpi_explanation: "成本绩效(CPI)：完成工作量 / 实际工时，>1表示成本节约，<1表示成本超支"
   text_cr_explanation: "综合绩效(CR)：SPI × CPI，>1表示整体表现良好，<1表示需要改进"
+
+  # Menu items
+  label_nav_main: "项目EVM"
+  label_nav_assignee: "人员EVM"
+  label_nav_coverage: "预算覆盖率"
+
+  # Budget Coverage
+  label_budget_coverage: "预算覆盖率"
+  label_month: "选择月份"
+  button_apply: "应用"
+  label_working_days: "工作日"
+  label_budget_days: "预算工作日"
+  label_actual_days: "实际工作日"
+  label_actual_coverage: "工时覆盖率"
+  label_coverage_legend: "图例说明"
+  label_coverage_explanation: "功能说明"
+  
+  text_working_days_explanation: "当月的实际工作日数（已排除周末和节假日）"
+  text_budget_days_explanation: "根据任务预估工时计算的工作日数（8小时/天）"
+  text_actual_days_explanation: "根据实际记录工时计算的工作日数（8小时/天）"
+  text_budget_coverage_explanation: "预算工作日占总工作日的百分比，反映工作提前安排的程度"
+  text_actual_coverage_explanation: "实际工作日占总工作日的百分比，反映工作开展的程度"
+  text_coverage_explanation: "此页面显示每个成员在选定月份的工作预算和实际情况，帮助了解工作安排的充分性和实际执行情况。绿色表示覆盖率>=80%，橙色表示覆盖率>=50%，红色表示覆盖率<50%。"

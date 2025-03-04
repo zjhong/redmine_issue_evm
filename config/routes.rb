@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   # EVM项目和人员路由
   get 'evm/projects', to: 'all_projects_evm#index'
   get 'evm/members', to: 'evm_members#index', as: 'evm_members'
+  get 'evm/coverage', to: 'evm_coverage#index', as: 'evm_coverage'
   
   # 原EVM路由重定向到项目子菜单
   get 'all_projects_evm', to: redirect('evm/projects')

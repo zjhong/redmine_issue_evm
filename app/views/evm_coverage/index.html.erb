@@ -1,0 +1,93 @@
+<% html_title("EVM - #{l(:label_budget_coverage)}") %>
+
+<div class="contextual">
+  <%= form_tag evm_coverage_path, method: :get, class: 'month-selector' do %>
+    <%= label_tag :month, l(:label_month) %>
+    <%= date_field_tag :month, @selected_month.strftime('%Y-%m-%d'), class: 'month-picker' %>
+    <%= submit_tag l(:button_apply), class: 'button-small' %>
+  <% end %>
+</div>
+
+<h2><%= l(:label_budget_coverage) %> - <%= @selected_month.strftime('%Y年%m月%d日') %></h2>
+
+<% if @coverage_data.present? %>
+<div class="autoscroll">
+  <table class="list issues" style="width: 100%;">
+    <thead>
+      <tr>
+        <th style="width: 15%;"><%= l(:label_name) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 15%;"><%= l(:label_working_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 15%;"><%= l(:label_budget_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 15%;"><%= l(:label_actual_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 20%;"><%= l(:label_budget_coverage) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 20%;"><%= l(:label_actual_coverage) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @coverage_data.each do |data| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td class="name"><%= data[:name] %></td>
+          <td><%= data[:working_days] %></td>
+          <td><%= number_with_precision(data[:budget_days], precision: 1) %></td>
+          <td><%= number_with_precision(data[:actual_days], precision: 1) %></td>
+          <td class="<%= data[:budget_coverage] >= 80 ? 'green' : (data[:budget_coverage] >= 50 ? 'orange' : 'red') %>">
+            <%= number_with_precision(data[:budget_coverage], precision: 1) %>%
+          </td>
+          <td class="<%= data[:actual_coverage] >= 80 ? 'green' : (data[:actual_coverage] >= 50 ? 'orange' : 'red') %>">
+            <%= number_with_precision(data[:actual_coverage], precision: 1) %>%
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+  <div class="legend">
+    <p><strong><%= l(:label_coverage_legend) %>：</strong></p>
+    <ul>
+      <li><%= l(:text_working_days_explanation) %></li>
+      <li><%= l(:text_budget_days_explanation) %></li>
+      <li><%= l(:text_actual_days_explanation) %></li>
+      <li><%= l(:text_budget_coverage_explanation) %></li>
+      <li><%= l(:text_actual_coverage_explanation) %></li>
+    </ul>
+  </div>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<% content_for :sidebar do %>
+  <h3><%= l(:label_coverage_explanation) %></h3>
+  <p><%= l(:text_coverage_explanation) %></p>
+<% end %>
+
+<% content_for :header_tags do %>
+  <style>
+    .red { color: #cc0000; }
+    .orange { color: #ff9900; }
+    .green { color: #009900; }
+    .autoscroll { overflow-x: auto; width: 100%; }
+    table.list { width: 100%; }
+    table.list th { text-align: center; }
+    table.list td { text-align: center; }
+    table.list td.name { text-align: left; }
+    .legend { margin-top: 1em; color: #666; }
+    .legend ul { margin: 0.5em 0; padding-left: 1.5em; }
+    .legend li { margin: 0.3em 0; }
+    .contextual {
+      float: right;
+      margin-bottom: 1em;
+    }
+    .month-selector {
+      display: inline-block;
+      margin-right: 1em;
+    }
+    .month-picker {
+      padding: 2px 5px;
+      margin: 0 5px;
+    }
+    .button-small {
+      padding: 2px 10px;
+    }
+  </style>
+<% end %> 

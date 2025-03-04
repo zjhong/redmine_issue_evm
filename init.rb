@@ -81,6 +81,11 @@ Redmine::Plugin.register :redmine_issue_evm do
   caption: :label_nav_assignee, 
   if: Proc.new { User.current.logged? }
 
+  menu :application_menu, :evm_coverage,
+  { controller: 'evm_coverage', action: 'index' },
+  caption: :label_nav_coverage,
+  if: Proc.new { User.current.logged? }
+
   # load holidays
   Holidays.load_all
 end
