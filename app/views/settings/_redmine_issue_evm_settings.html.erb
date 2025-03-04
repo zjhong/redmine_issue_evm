@@ -1,0 +1,15 @@
+<fieldset>
+  <legend><%= l(:label_settings) %></legend>
+  
+  <div class="box tabular settings">
+    <p>
+      <label for="settings_enable_hourly_rate"><%= l(:label_enable_hourly_rate) %></label>
+      <%= check_box_tag 'settings[enable_hourly_rate]', 'true', @settings['enable_hourly_rate'] == 'true' %>
+    </p>
+    
+    <p>
+      <label for="settings_default_hourly_rate"><%= l(:label_default_hourly_rate) %></label>
+      <%= text_field_tag 'settings[default_hourly_rate]', @settings['default_hourly_rate'] %>
+    </p>
+  </div>
+</fieldset> 

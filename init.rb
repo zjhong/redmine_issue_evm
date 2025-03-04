@@ -31,6 +31,13 @@ Redmine::Plugin.register :redmine_issue_evm do
   version "6.0.2"
   url "https://github.com/momibun926/redmine_issue_evm"
   author_url "https://github.com/momibun926"
+
+  # Plugin settings
+  settings default: {
+    'enable_hourly_rate' => 'false',
+    'default_hourly_rate' => '0'
+  }, partial: 'settings/redmine_issue_evm_settings'
+
   project_module :Issuevm do
     permission :view_evms, evms: :index, require: :member
     permission :manage_evmbaselines,
@@ -66,12 +73,12 @@ Redmine::Plugin.register :redmine_issue_evm do
   # 添加主菜单下的子菜单
   menu :application_menu, :evm_projects, 
   { controller: 'all_projects_evm', action: 'index' }, 
-  caption: "项目EVM", 
+  caption: :label_nav_main, 
   if: Proc.new { User.current.logged? }
   
   menu :application_menu, :evm_members, 
   { controller: 'evm_members', action: 'index' }, 
-  caption: "人员EVM", 
+  caption: :label_nav_assignee, 
   if: Proc.new { User.current.logged? }
 
   # load holidays

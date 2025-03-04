@@ -1,12 +1,12 @@
 ﻿﻿# chinese translation
 zh:
   # main title
-  title_evm_tab: Track with EVM
+  title_evm_tab: 挣值管理
 
   # contextual menu
-  label_nav_main: Project
+  label_nav_main: 项目EVM
   label_nav_version: Versions
-  label_nav_assignee: Assignees
+  label_nav_assignee: 人员EVM
   label_nav_parent_issue: Parent issues
   label_nav_tracker: Trackers
   label_nav_exclude: Exclude issues
@@ -163,7 +163,7 @@ zh:
   explanation_cpi: Cost Performance Index，成本绩效指数：CPI<1时，表示超支，即实际费用高于预算费用；CPI>1时，表示节支，即实际费用低于预算费用。计算公式：CPI = EV/AC。
   explanation_cr: Critical Ratio，关键比率：(CR)。当CR在0.9-1.2之间，表示项目进展正常，偏差可以接受；CR在0.8-0.9或1.2-1.3之间，表示需要对项目进展进行检查，项目偏差需要纠正；CR在1.3以上或0.8以下，表示需要对项目立即采取行动，项目偏差已经严重失控。计算公式：CR = SPI * CPI。
   explanation_tpi: Time performance index, If TPI is greater than 1, then the project is ahead of schedule and if it is less than 1, then the project is behind schedule.
-  explanation_complete: 完成率。计算公式：Complete = EV/BAC。
+  explanation_complete: "完成率 (Complete)：计算公式：EV/BAC (%)"
   explanation_eac: Estimate At Completion，完工估算：(EAC)是根据项目绩效和风险量化对项目总成本的预测。计算公式：EAC = AC＋ETC。
   explanation_teac: The remaining work will be performed while maintaining the same rate of doing work for the rest of the project
   explanation_etc: Estimate To Completion，完工尚需估算：(ETC)是指剩余工作在当前的预测。计算公式：ETC = (BAC－EV)/CPI。
@@ -253,12 +253,56 @@ zh:
   
   # EVM子菜单
   label_evm_projects: "项目"
-  label_evm_members: "人员"
+  label_evm_members: "EVM人员"
   label_member_plural: "人员"
   field_member: "成员列表"
   field_login: "登录名"
   field_name: "姓名"
+  field_project: "项目"
   label_evm_explanation: "说明"
-  text_evm_members_explanation: "此页面列出了可以分配给工作项的所有活跃成员。您可以点击查看按钮查看每个成员的EVM数据。"
+  text_evm_members_explanation: "此页面显示所有已分配任务或记录工时的成员的EVM指标。这些指标有助于跟踪个人绩效和进度。"
   button_view: "查看"
   label_action: "操作"
+  label_no_data: "没有数据"
+
+  # 浮动提示语
+  indicator_bac: "完工预算 (BAC)"
+  indicator_pv: "计划值 (PV)"
+  indicator_ev: "挣值 (EV)"
+  indicator_ac: "实际成本 (AC)"
+  indicator_sv: "进度偏差 (SV)"
+  indicator_cv: "成本偏差 (CV)"
+  indicator_spi: "进度绩效指数 (SPI)"
+  indicator_cpi: "成本绩效指数 (CPI)"
+  indicator_cr: "关键比率 (CR)"
+
+  # 新增标签和浮动提示语
+  label_no_member_evm_data: "该项目中没有人员的EVM数据"
+  label_select_project_to_view_evm: "请选择一个项目查看人员EVM数据"
+
+  # EVM Members
+  label_evm_members: "EVM人员"
+  label_evm_explanation: "说明"
+  text_evm_members_explanation: "此页面显示所有已分配任务或记录工时的成员的EVM指标。这些指标有助于跟踪个人绩效和进度。"
+  
+  # Table Headers
+  field_name: "姓名"
+  label_planned_value: "计划工时(PV)"
+  label_actual_cost: "实际工时(AC)"
+  label_completion_rate: "完成率(%)"
+  label_schedule_variance: "进度偏差(SV)"
+  label_cost_variance: "成本偏差(CV)"
+  label_schedule_performance: "进度绩效(SPI)"
+  label_cost_performance: "成本绩效(CPI)"
+  label_combined_performance: "综合绩效(CR)"
+
+  # Performance Indicators Legend
+  label_performance_legend: "绩效指标说明"
+  text_pv_explanation: "计划工时(PV)：根据计划应完成的工作量"
+  text_ac_explanation: "实际工时(AC)：实际投入的工作时间"
+  text_completion_rate_explanation: "完成率：已完成工作量 / 总工作量 × 100%"
+  text_sv_explanation: "进度偏差(SV)：完成工作量 - 计划工时，正值表示进度超前，负值表示进度滞后"
+  text_cv_explanation: "成本偏差(CV)：完成工作量 - 实际工时，正值表示成本节约，负值表示成本超支"
+  text_spi_explanation: "进度绩效(SPI)：完成工作量 / 计划工时，>1表示进度超前，<1表示进度滞后"
+  text_cpi_explanation: "成本绩效(CPI)：完成工作量 / 实际工时，>1表示成本节约，<1表示成本超支"
+  text_cr_explanation: "综合绩效(CR)：SPI × CPI，>1表示整体表现良好，<1表示需要改进"

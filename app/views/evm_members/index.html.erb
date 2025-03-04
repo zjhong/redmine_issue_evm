@@ -1,90 +1,81 @@
 <% html_title("EVM - #{l(:label_member_plural)}") %>
 
-<h2>人员EVM</h2>
+<h2><%= l(:label_evm_members) %></h2>
 
-<div class="contextual">
-  <% if @selected_project_id.present? && User.current.allowed_to?(:edit_project, @project) %>
-    <%= link_to l(:label_project_settings), { controller: 'projects', action: 'settings', id: @project, tab: 'evm' }, class: 'icon icon-settings' %>
-  <% end %>
-</div>
-
-<div class="box">
-  <h3>选择项目</h3>
-  <%= form_tag({controller: 'evm_members', action: 'index'}, method: :get) do %>
-    <div class="form-field">
-      <%= select_tag 'project_id', 
-                     options_from_collection_for_select(@projects, 'id', 'name', @selected_project_id),
-                     include_blank: '-- 请选择项目 --',
-                     onchange: 'this.form.submit()' %>
-    </div>
-  <% end %>
-</div>
-
-<% if @selected_project_id.present? && @member_evm_data.present? %>
+<% if @member_evm_data.present? %>
   <div class="autoscroll">
-    <table class="list">
+    <table class="list issues">
       <thead>
         <tr>
-          <th><%= l(:field_name) %></th>
-          <th><%= link_to l(:tooltip_bac), {sort: 'bac', project_id: @selected_project_id, direction: (params[:sort] == 'bac' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_ev), {sort: 'ev', project_id: @selected_project_id, direction: (params[:sort] == 'ev' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_ac), {sort: 'ac', project_id: @selected_project_id, direction: (params[:sort] == 'ac' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_pv), {sort: 'pv', project_id: @selected_project_id, direction: (params[:sort] == 'pv' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_sv), {sort: 'sv', project_id: @selected_project_id, direction: (params[:sort] == 'sv' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_cv), {sort: 'cv', project_id: @selected_project_id, direction: (params[:sort] == 'cv' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_spi), {sort: 'spi', project_id: @selected_project_id, direction: (params[:sort] == 'spi' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_cpi), {sort: 'cpi', project_id: @selected_project_id, direction: (params[:sort] == 'cpi' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to l(:tooltip_cr), {sort: 'cr', project_id: @selected_project_id, direction: (params[:sort] == 'cr' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= link_to "#{l(:explanation_complete)}(%)", {sort: 'complete', project_id: @selected_project_id, direction: (params[:sort] == 'complete' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
-          <th><%= l(:label_action) %></th>
+          <th rowspan="2"><%= l(:field_name) %></th>
+          <th colspan="5"><%= l(:indicator_table_header_today) %></th>
+          <th colspan="2"><%= l(:indicator_table_header_difference) %></th>
+          <th colspan="3"><%= l(:indicator_table_header_performance) %></th>
+          <th colspan="4"><%= l(:indicator_table_header_forecast) %></th>
+        </tr>
+        <tr>
+          <th><span class="tooltip">BAC<span class="tooltiptext"><%=l(:tooltip_bac)%></span></span></th>
+          <th><span class="tooltip">Complete EV<span class="tooltiptext"><%=l(:tooltip_complete_ev)%></span></span></th>
+          <th><span class="tooltip">PV<span class="tooltiptext"><%=l(:tooltip_pv)%></span></span></th>
+          <th><span class="tooltip">EV<span class="tooltiptext"><%=l(:tooltip_ev)%></span></span></th>
+          <th><span class="tooltip">AC<span class="tooltiptext"><%=l(:tooltip_ac)%></span></span></th>
+          <th><span class="tooltip">SV<span class="tooltiptext"><%=l(:tooltip_sv)%></span></span></th>
+          <th><span class="tooltip">CV<span class="tooltiptext"><%=l(:tooltip_cv)%></span></span></th>
+          <th><span class="tooltip">SPI<span class="tooltiptext"><%=l(:tooltip_spi)%></span></span></th>
+          <th><span class="tooltip">CPI<span class="tooltiptext"><%=l(:tooltip_cpi)%></span></span></th>
+          <th><span class="tooltip">CR<span class="tooltiptext"><%=l(:tooltip_cr)%></span></span></th>
+          <th><span class="tooltip">EAC<span class="tooltiptext"><%=l(:tooltip_eac)%></span></span></th>
+          <th><span class="tooltip">ETC<span class="tooltiptext"><%=l(:tooltip_etc)%></span></span></th>
+          <th><span class="tooltip">VAC<span class="tooltiptext"><%=l(:tooltip_vac)%></span></span></th>
+          <th><span class="tooltip">TCPI<span class="tooltiptext"><%=l(:tooltip_tcpi)%></span></span></th>
         </tr>
       </thead>
       <tbody>
-        <% @member_evm_data.each do |member_id, data| %>
-          <tr>
-            <td><%= data[:name] %></td>
-            <td align="right"><%= sprintf("%.2f", data[:bac]) %></td>
-            <td align="right"><%= sprintf("%.2f", data[:ev]) %></td>
-            <td align="right"><%= sprintf("%.2f", data[:ac]) %></td>
-            <td align="right"><%= sprintf("%.2f", data[:pv]) %></td>
-            <td align="right" class="<%= data[:sv] >= 0 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:sv]) %></td>
-            <td align="right" class="<%= data[:cv] >= 0 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:cv]) %></td>
-            <td align="right" class="<%= data[:spi] >= 1 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:spi]) %></td>
-            <td align="right" class="<%= data[:cpi] >= 1 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:cpi]) %></td>
-            <td align="right" class="<%= data[:cr] >= 1 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:cr]) %></td>
-            <td align="right"><%= sprintf("%.1f", data[:complete]) %>%</td>
-            <td>
-              <%= link_to l(:button_view), 
-                         { controller: 'evmassignees', 
-                           action: 'index', 
-                           project_id: @selected_project_id, 
-                           selected_assignee_id: member_id }, 
-                         class: 'icon icon-zoom-in' %>
-            </td>
+        <% @member_evm_data.each do |data| %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td class="name"><%= data[:name] %></td>
+            <td><%= number_with_precision(data[:bac], precision: 2) %></td>
+            <td><%= number_with_precision(data[:complete_ev], precision: 1) %>%</td>
+            <td><%= number_with_precision(data[:pv], precision: 2) %></td>
+            <td><%= number_with_precision(data[:ev], precision: 2) %></td>
+            <td><%= number_with_precision(data[:ac], precision: 2) %></td>
+            <td class="<%= data[:sv] >= 0 ? 'green' : 'red' %>"><%= number_with_precision(data[:sv], precision: 2) %></td>
+            <td class="<%= data[:cv] >= 0 ? 'green' : 'red' %>"><%= number_with_precision(data[:cv], precision: 2) %></td>
+            <td class="<%= data[:spi] >= 1 ? 'green' : 'red' %>"><%= number_with_precision(data[:spi], precision: 2) %></td>
+            <td class="<%= data[:cpi] >= 1 ? 'green' : 'red' %>"><%= number_with_precision(data[:cpi], precision: 2) %></td>
+            <td class="<%= data[:cr] >= 1 ? 'green' : 'red' %>"><%= number_with_precision(data[:cr], precision: 2) %></td>
+            <td><%= number_with_precision(data[:eac], precision: 2) %></td>
+            <td><%= number_with_precision(data[:etc], precision: 2) %></td>
+            <td class="<%= data[:vac] >= 0 ? 'green' : 'red' %>"><%= number_with_precision(data[:vac], precision: 2) %></td>
+            <td><%= number_with_precision(data[:tcpi], precision: 2) %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-  
-  <div class="box">
-    <h3>EVM 指标说明</h3>
+
+
+
+  <div class="legend">
+    <p><strong><%= l(:label_performance_legend) %>：</strong></p>
     <ul>
-      <li><strong>BAC (Budget At Completion)</strong>: <%= l(:tooltip_bac) %></li>
-      <li><strong>EV (Earned Value)</strong>: <%= l(:tooltip_ev) %></li>
-      <li><strong>AC (Actual Cost)</strong>: <%= l(:tooltip_ac) %></li>
-      <li><strong>PV (Planned Value)</strong>: <%= l(:tooltip_pv) %></li>
-      <li><strong>SV (Schedule Variance)</strong>: <%= l(:tooltip_sv) %></li>
-      <li><strong>CV (Cost Variance)</strong>: <%= l(:tooltip_cv) %></li>
-      <li><strong>SPI (Schedule Performance Index)</strong>: <%= l(:tooltip_spi) %></li>
-      <li><strong>CPI (Cost Performance Index)</strong>: <%= l(:tooltip_cpi) %></li>
-      <li><strong>CR (Critical Ratio)</strong>: <%= l(:tooltip_cr) %></li>
+      <li><%= l(:text_pv_explanation) %></li>
+      <li><%= l(:text_ac_explanation) %></li>
+      <li><%= l(:text_completion_rate_explanation) %></li>
+      <li><%= l(:text_sv_explanation) %></li>
+      <li><%= l(:text_cv_explanation) %></li>
+      <li><%= l(:text_spi_explanation) %></li>
+      <li><%= l(:text_cpi_explanation) %></li>
+      <li><%= l(:text_cr_explanation) %></li>
     </ul>
   </div>
-<% elsif @selected_project_id.present? %>
-  <p class="nodata">该项目中没有人员的EVM数据</p>
 <% else %>
-  <p class="nodata">请选择一个项目查看人员EVM数据</p>
+  <p class="nodata"><%= l(:label_no_member_evm_data) %></p>
+<% end %>
+
+<% content_for :sidebar do %>
+  <h3><%= l(:label_evm_explanation) %></h3>
+  <p><%= l(:text_evm_members_explanation) %></p>
 <% end %>
 
 <% content_for :header_tags do %>
@@ -92,5 +83,35 @@
     .red { color: #cc0000; }
     .green { color: #009900; }
     .autoscroll { overflow-x: auto; }
+    table.list th { text-align: center; }
+    table.list td { text-align: center; }
+    table.list td.name { text-align: left; }
+    .legend { margin-top: 1em; color: #666; }
+    .legend ul { margin: 0.5em 0; padding-left: 1.5em; }
+    .legend li { margin: 0.3em 0; }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 300px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -150px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
   </style>
 <% end %>

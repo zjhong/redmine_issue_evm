@@ -3,9 +3,9 @@
   title_evm_tab: Track with EVM
 
   # contextual menu
-  label_nav_main: Project
+  label_nav_main: Project EVM
   label_nav_version: Versions
-  label_nav_assignee: Assignees
+  label_nav_assignee: Member EVM
   label_nav_parent_issue: Parent issues
   label_nav_tracker: Trackers
   label_nav_exclude: Exclude issues
@@ -248,3 +248,40 @@
   top_menu_evm: "EVM"
   all_projects_evm_title: "EVM Summary for All Projects"
   all_projects_evm_description: "Show earned value management calculation summary for all projects"
+
+  # EVM Members
+  label_evm_members: "EVM Members"
+  label_member_plural: "Members"
+  label_status_date: "Status Date"
+  label_status_date_value: "Status Date Value"
+  label_variance: "Variance"
+  label_performance: "Performance"
+  label_forecast: "Forecast"
+  label_view_member_details: "View Member Details"
+  label_all_projects: "All Projects"
+
+  # EVM Members Page
+  label_evm_explanation: "Explanation"
+  text_evm_members_explanation: "This page shows EVM metrics for all members who have assigned tasks or logged time. The metrics help track individual performance and progress."
+  
+  # Table Headers
+  field_name: "Name"
+  label_planned_value: "Planned Value (PV)"
+  label_actual_cost: "Actual Cost (AC)"
+  label_completion_rate: "Completion Rate (%)"
+  label_schedule_variance: "Schedule Variance (SV)"
+  label_cost_variance: "Cost Variance (CV)"
+  label_schedule_performance: "Schedule Performance (SPI)"
+  label_cost_performance: "Cost Performance (CPI)"
+  label_combined_performance: "Combined Performance (CR)"
+
+  # Performance Indicators Legend
+  label_performance_legend: "Performance Indicators Legend"
+  text_pv_explanation: "Planned Value (PV): Work scheduled to be completed according to plan"
+  text_ac_explanation: "Actual Cost (AC): Actual time spent on work"
+  text_completion_rate_explanation: "Completion Rate: Completed work / Total work × 100%"
+  text_sv_explanation: "Schedule Variance (SV): Completed work - Planned value, positive means ahead of schedule"
+  text_cv_explanation: "Cost Variance (CV): Completed work - Actual cost, positive means under budget"
+  text_spi_explanation: "Schedule Performance Index (SPI): Completed work / Planned value, >1 means ahead of schedule"
+  text_cpi_explanation: "Cost Performance Index (CPI): Completed work / Actual cost, >1 means under budget"
+  text_cr_explanation: "Critical Ratio (CR): SPI × CPI, >1 means good overall performance"

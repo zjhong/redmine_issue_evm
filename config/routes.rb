@@ -2,8 +2,10 @@
 Rails.application.routes.draw do
   # 项目级资源
   resources :projects do
-    resources :evms, :evmbaselines, :evmsettings, :evmassignees, :evmparentissues, :evmversions, :evmtrackers, :evmexcludes,
+    resources :evms, only: [:index]
+    resources :evmbaselines, :evmsettings, :evmassignees, :evmparentissues, :evmversions, :evmtrackers, :evmexcludes,
               :evmbaselinediffdetails, :evmreports
+    get 'evm_members', to: 'evm_members#index'
   end
   
   # 全局EVM路由
@@ -17,7 +19,7 @@ Rails.application.routes.draw do
   
   # EVM项目和人员路由
   get 'evm/projects', to: 'all_projects_evm#index'
-  get 'evm/members', to: 'evm_members#index'
+  get 'evm/members', to: 'evm_members#index', as: 'evm_members'
   
   # 原EVM路由重定向到项目子菜单
   get 'all_projects_evm', to: redirect('evm/projects')
