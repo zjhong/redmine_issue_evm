@@ -1,4 +1,4 @@
-﻿# chinese translation
+﻿﻿# chinese translation
 zh:
   # main title
   title_evm_tab: Track with EVM
@@ -250,3 +250,15 @@ zh:
   top_menu_evm: "EVM"
   all_projects_evm_title: "所有项目的 EVM 汇总"
   all_projects_evm_description: "显示所有项目的挣值管理计算汇总"
+  
+  # EVM子菜单
+  label_evm_projects: "项目"
+  label_evm_members: "人员"
+  label_member_plural: "人员"
+  field_member: "成员列表"
+  field_login: "登录名"
+  field_name: "姓名"
+  label_evm_explanation: "说明"
+  text_evm_members_explanation: "此页面列出了可以分配给工作项的所有活跃成员。您可以点击查看按钮查看每个成员的EVM数据。"
+  button_view: "查看"
+  label_action: "操作"

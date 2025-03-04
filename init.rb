@@ -62,6 +62,17 @@ Redmine::Plugin.register :redmine_issue_evm do
   { controller: 'all_projects_evm', action: 'index' }, 
   caption: "EVM", 
   if: Proc.new { User.current.logged? }
+  
+  # 添加主菜单下的子菜单
+  menu :application_menu, :evm_projects, 
+  { controller: 'all_projects_evm', action: 'index' }, 
+  caption: "项目EVM", 
+  if: Proc.new { User.current.logged? }
+  
+  menu :application_menu, :evm_members, 
+  { controller: 'evm_members', action: 'index' }, 
+  caption: "人员EVM", 
+  if: Proc.new { User.current.logged? }
 
   # load holidays
   Holidays.load_all

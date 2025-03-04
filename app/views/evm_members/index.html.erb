@@ -1,0 +1,96 @@
+<% html_title("EVM - #{l(:label_member_plural)}") %>
+
+<h2>人员EVM</h2>
+
+<div class="contextual">
+  <% if @selected_project_id.present? && User.current.allowed_to?(:edit_project, @project) %>
+    <%= link_to l(:label_project_settings), { controller: 'projects', action: 'settings', id: @project, tab: 'evm' }, class: 'icon icon-settings' %>
+  <% end %>
+</div>
+
+<div class="box">
+  <h3>选择项目</h3>
+  <%= form_tag({controller: 'evm_members', action: 'index'}, method: :get) do %>
+    <div class="form-field">
+      <%= select_tag 'project_id', 
+                     options_from_collection_for_select(@projects, 'id', 'name', @selected_project_id),
+                     include_blank: '-- 请选择项目 --',
+                     onchange: 'this.form.submit()' %>
+    </div>
+  <% end %>
+</div>
+
+<% if @selected_project_id.present? && @member_evm_data.present? %>
+  <div class="autoscroll">
+    <table class="list">
+      <thead>
+        <tr>
+          <th><%= l(:field_name) %></th>
+          <th><%= link_to l(:tooltip_bac), {sort: 'bac', project_id: @selected_project_id, direction: (params[:sort] == 'bac' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_ev), {sort: 'ev', project_id: @selected_project_id, direction: (params[:sort] == 'ev' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_ac), {sort: 'ac', project_id: @selected_project_id, direction: (params[:sort] == 'ac' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_pv), {sort: 'pv', project_id: @selected_project_id, direction: (params[:sort] == 'pv' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_sv), {sort: 'sv', project_id: @selected_project_id, direction: (params[:sort] == 'sv' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_cv), {sort: 'cv', project_id: @selected_project_id, direction: (params[:sort] == 'cv' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_spi), {sort: 'spi', project_id: @selected_project_id, direction: (params[:sort] == 'spi' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_cpi), {sort: 'cpi', project_id: @selected_project_id, direction: (params[:sort] == 'cpi' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to l(:tooltip_cr), {sort: 'cr', project_id: @selected_project_id, direction: (params[:sort] == 'cr' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= link_to "#{l(:explanation_complete)}(%)", {sort: 'complete', project_id: @selected_project_id, direction: (params[:sort] == 'complete' && params[:direction] != 'desc') ? 'desc' : 'asc'} %></th>
+          <th><%= l(:label_action) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @member_evm_data.each do |member_id, data| %>
+          <tr>
+            <td><%= data[:name] %></td>
+            <td align="right"><%= sprintf("%.2f", data[:bac]) %></td>
+            <td align="right"><%= sprintf("%.2f", data[:ev]) %></td>
+            <td align="right"><%= sprintf("%.2f", data[:ac]) %></td>
+            <td align="right"><%= sprintf("%.2f", data[:pv]) %></td>
+            <td align="right" class="<%= data[:sv] >= 0 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:sv]) %></td>
+            <td align="right" class="<%= data[:cv] >= 0 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:cv]) %></td>
+            <td align="right" class="<%= data[:spi] >= 1 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:spi]) %></td>
+            <td align="right" class="<%= data[:cpi] >= 1 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:cpi]) %></td>
+            <td align="right" class="<%= data[:cr] >= 1 ? 'green' : 'red' %>"><%= sprintf("%.2f", data[:cr]) %></td>
+            <td align="right"><%= sprintf("%.1f", data[:complete]) %>%</td>
+            <td>
+              <%= link_to l(:button_view), 
+                         { controller: 'evmassignees', 
+                           action: 'index', 
+                           project_id: @selected_project_id, 
+                           selected_assignee_id: member_id }, 
+                         class: 'icon icon-zoom-in' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="box">
+    <h3>EVM 指标说明</h3>
+    <ul>
+      <li><strong>BAC (Budget At Completion)</strong>: <%= l(:tooltip_bac) %></li>
+      <li><strong>EV (Earned Value)</strong>: <%= l(:tooltip_ev) %></li>
+      <li><strong>AC (Actual Cost)</strong>: <%= l(:tooltip_ac) %></li>
+      <li><strong>PV (Planned Value)</strong>: <%= l(:tooltip_pv) %></li>
+      <li><strong>SV (Schedule Variance)</strong>: <%= l(:tooltip_sv) %></li>
+      <li><strong>CV (Cost Variance)</strong>: <%= l(:tooltip_cv) %></li>
+      <li><strong>SPI (Schedule Performance Index)</strong>: <%= l(:tooltip_spi) %></li>
+      <li><strong>CPI (Cost Performance Index)</strong>: <%= l(:tooltip_cpi) %></li>
+      <li><strong>CR (Critical Ratio)</strong>: <%= l(:tooltip_cr) %></li>
+    </ul>
+  </div>
+<% elsif @selected_project_id.present? %>
+  <p class="nodata">该项目中没有人员的EVM数据</p>
+<% else %>
+  <p class="nodata">请选择一个项目查看人员EVM数据</p>
+<% end %>
+
+<% content_for :header_tags do %>
+  <style>
+    .red { color: #cc0000; }
+    .green { color: #009900; }
+    .autoscroll { overflow-x: auto; }
+  </style>
+<% end %>

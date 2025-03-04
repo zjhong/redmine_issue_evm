@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   resources :hourly_rates
   get 'users/:user_id/hourly_rates', to: 'hourly_rates#user_rates', as: 'user_hourly_rates'
   
-  # 添加所有项目的 EVM 路由
-  get 'all_projects_evm', to: 'all_projects_evm#index'
+  # EVM项目和人员路由
+  get 'evm/projects', to: 'all_projects_evm#index'
+  get 'evm/members', to: 'evm_members#index'
+  
+  # 原EVM路由重定向到项目子菜单
+  get 'all_projects_evm', to: redirect('evm/projects')
 end
