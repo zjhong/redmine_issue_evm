@@ -7,7 +7,7 @@ class EvmCoverageController < ApplicationController
   def index
     # 初始化排序
     sort_init 'name', 'asc'
-    sort_update %w(name working_days budget_days actual_days budget_coverage actual_coverage)
+    sort_update %w(name working_days budget_days actual_days budget_coverage actual_coverage budget_completion)
 
     # 获取选择的日期（默认当前日期）
     @selected_month = params[:month] ? Date.parse(params[:month]) : Date.today
@@ -40,13 +40,17 @@ class EvmCoverageController < ApplicationController
       budget_coverage = working_days.zero? ? 0 : (budget_days / working_days.to_f * 100).round(1)
       actual_coverage = working_days.zero? ? 0 : (actual_days / working_days.to_f * 100).round(1)
       
+      # 计算预算完成率
+      budget_completion = budget_days.zero? ? 0 : (actual_days / budget_days.to_f * 100).round(1)
+      
       @coverage_data << {
         name: member.name,
         working_days: working_days,
         budget_days: budget_days.round(1),
         actual_days: actual_days.round(1),
         budget_coverage: budget_coverage,
-        actual_coverage: actual_coverage
+        actual_coverage: actual_coverage,
+        budget_completion: budget_completion
       }
     end
 

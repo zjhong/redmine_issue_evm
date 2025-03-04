@@ -16,11 +16,12 @@
     <thead>
       <tr>
         <th style="width: 15%;"><%= l(:label_name) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
-        <th style="width: 15%;"><%= l(:label_working_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
-        <th style="width: 15%;"><%= l(:label_budget_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
-        <th style="width: 15%;"><%= l(:label_actual_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
-        <th style="width: 20%;"><%= l(:label_budget_coverage) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
-        <th style="width: 20%;"><%= l(:label_actual_coverage) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 12%;"><%= l(:label_working_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 12%;"><%= l(:label_budget_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 12%;"><%= l(:label_actual_days) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 16%;"><%= l(:label_budget_coverage) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 16%;"><%= l(:label_actual_coverage) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
+        <th style="width: 17%;"><%= l(:label_budget_completion) %><%= sort_link({:controller => 'evm', :action => 'coverage'}, '', :caption => '') %></th>
       </tr>
     </thead>
     <tbody>
@@ -36,6 +37,9 @@
           <td class="<%= data[:actual_coverage] >= 80 ? 'green' : (data[:actual_coverage] >= 50 ? 'orange' : 'red') %>">
             <%= number_with_precision(data[:actual_coverage], precision: 1) %>%
           </td>
+          <td class="<%= data[:budget_completion] >= 80 ? 'green' : (data[:budget_completion] >= 50 ? 'orange' : 'red') %>">
+            <%= number_with_precision(data[:budget_completion], precision: 1) %>%
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -45,11 +49,12 @@
   <div class="legend">
     <p><strong><%= l(:label_coverage_legend) %>：</strong></p>
     <ul>
-      <li><%= l(:text_working_days_explanation) %></li>
-      <li><%= l(:text_budget_days_explanation) %></li>
-      <li><%= l(:text_actual_days_explanation) %></li>
-      <li><%= l(:text_budget_coverage_explanation) %></li>
-      <li><%= l(:text_actual_coverage_explanation) %></li>
+      <li><strong><%= l(:label_working_days) %></strong>：<%= l(:text_working_days_explanation) %></li>
+      <li><strong><%= l(:label_budget_days) %></strong>：<%= l(:text_budget_days_explanation) %></li>
+      <li><strong><%= l(:label_actual_days) %></strong>：<%= l(:text_actual_days_explanation) %></li>
+      <li><strong><%= l(:label_budget_coverage) %></strong>：<%= l(:text_budget_coverage_explanation) %></li>
+      <li><strong><%= l(:label_actual_coverage) %></strong>：<%= l(:text_actual_coverage_explanation) %></li>
+      <li><strong><%= l(:label_budget_completion) %></strong>：<%= l(:text_budget_completion_explanation) %></li>
     </ul>
   </div>
 <% else %>
@@ -74,6 +79,7 @@
     .legend { margin-top: 1em; color: #666; }
     .legend ul { margin: 0.5em 0; padding-left: 1.5em; }
     .legend li { margin: 0.3em 0; }
+    .legend li strong { color: #333; }
     .contextual {
       float: right;
       margin-bottom: 1em;
