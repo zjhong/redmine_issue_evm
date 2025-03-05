@@ -115,8 +115,9 @@ class EvmCoverageController < ApplicationController
       end
     end
 
-    # 转换为工作日（假设每天8小时）
-    total_hours / 8.0
+    # 转换为工作日（使用配置的工作小时数）
+    basis_hours = @evm_setting&.basis_hours || 8.0
+    total_hours / basis_hours
   end
 
   def calculate_actual_days(member, date)
@@ -128,7 +129,10 @@ class EvmCoverageController < ApplicationController
                     .where(spent_on: start_date..end_date)
                     .sum(:hours)
 
-    # 转换为工作日（假设每天8小时）
-    hours / 8.0
+    # 获取配置的工作小时数，默认为8小时
+    basis_hours = @evm_setting&.basis_hours || 8.0
+
+    # 转换为工作日
+    hours / basis_hours
   end
-end 
+end
