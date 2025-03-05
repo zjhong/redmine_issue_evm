@@ -5,10 +5,18 @@ module EvmCacheInvalidator
   def self.invalidate_project_cache(project_id)
     # Find all cache keys that match the project pattern
     cache_keys = Rails.cache.instance_variable_get(:@data).try(:keys) || []
-    project_cache_keys = cache_keys.select { |key| key.to_s.include?("evm_project_#{project_id}") || key.to_s.include?("evm_data_#{project_id}") }
+    project_cache_keys = cache_keys.select do |key| 
+      key_str = key.to_s
+      key_str.include?("evm_project_#{project_id}") || 
+      key_str.include?("evm_data_#{project_id}_")
+    end
+    
+    # Log the keys being invalidated
+    Rails.logger.info("Invalidating project cache keys: #{project_cache_keys.join(', ')}")
     
     # Delete each matching cache key
     project_cache_keys.each do |key|
+      Rails.logger.info("Deleting cache key: #{key}")
       Rails.cache.delete(key)
     end
     
@@ -23,10 +31,20 @@ module EvmCacheInvalidator
   def self.invalidate_all_caches
     # Find all cache keys that match the EVM pattern
     cache_keys = Rails.cache.instance_variable_get(:@data).try(:keys) || []
-    evm_cache_keys = cache_keys.select { |key| key.to_s.include?("evm_project_") || key.to_s.include?("evm_data_") || key.to_s.include?("all_projects_evm_") || key.to_s.include?("evm_members_") }
+    evm_cache_keys = cache_keys.select do |key| 
+      key_str = key.to_s
+      key_str.include?("evm_project_") || 
+      key_str.include?("evm_data_") || 
+      key_str.include?("all_projects_evm_") || 
+      key_str.include?("evm_members_")
+    end
+    
+    # Log the keys being invalidated
+    Rails.logger.info("Invalidating all EVM cache keys: #{evm_cache_keys.join(', ')}")
     
     # Delete each matching cache key
     evm_cache_keys.each do |key|
+      Rails.logger.info("Deleting cache key: #{key}")
       Rails.cache.delete(key)
     end
   end
@@ -37,8 +55,12 @@ module EvmCacheInvalidator
     cache_keys = Rails.cache.instance_variable_get(:@data).try(:keys) || []
     all_projects_cache_keys = cache_keys.select { |key| key.to_s.include?("all_projects_evm_") }
     
+    # Log the keys being invalidated
+    Rails.logger.info("Invalidating all projects EVM cache keys: #{all_projects_cache_keys.join(', ')}")
+    
     # Delete each matching cache key
     all_projects_cache_keys.each do |key|
+      Rails.logger.info("Deleting cache key: #{key}")
       Rails.cache.delete(key)
     end
   end
@@ -49,8 +71,12 @@ module EvmCacheInvalidator
     cache_keys = Rails.cache.instance_variable_get(:@data).try(:keys) || []
     evm_members_cache_keys = cache_keys.select { |key| key.to_s.include?("evm_members_") }
     
+    # Log the keys being invalidated
+    Rails.logger.info("Invalidating EVM members cache keys: #{evm_members_cache_keys.join(', ')}")
+    
     # Delete each matching cache key
     evm_members_cache_keys.each do |key|
+      Rails.logger.info("Deleting cache key: #{key}")
       Rails.cache.delete(key)
     end
   end
@@ -80,6 +106,7 @@ module IssueHook
       
       def invalidate_evm_cache
         project_id = EvmCacheInvalidator.find_project_id_from_issue(self)
+        Rails.logger.info("Invalidating EVM cache for issue #{self.id} in project #{project_id}")
         EvmCacheInvalidator.invalidate_project_cache(project_id)
       end
     end
@@ -96,6 +123,7 @@ module TimeEntryHook
       
       def invalidate_evm_cache
         project_id = EvmCacheInvalidator.find_project_id_from_time_entry(self)
+        Rails.logger.info("Invalidating EVM cache for time entry #{self.id} in project #{project_id}")
         EvmCacheInvalidator.invalidate_project_cache(project_id)
       end
     end
@@ -111,6 +139,7 @@ module BaselineHook
       after_destroy :invalidate_evm_cache
       
       def invalidate_evm_cache
+        Rails.logger.info("Invalidating EVM cache for baseline #{self.id} in project #{self.project_id}")
         EvmCacheInvalidator.invalidate_project_cache(self.project_id)
       end
     end

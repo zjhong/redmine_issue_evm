@@ -38,11 +38,20 @@ class EvmsController < BaseevmController
       # Calculate EVM data with caching
       cache_key = generate_evm_cache_key
       
+      # Log cache key for debugging
+      Rails.logger.info("EVM Cache Key: #{cache_key}")
+      
       # Try to fetch from cache first
-      cached_data = Rails.cache.fetch(cache_key) do
+      cached_data = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+        # Log cache miss for debugging
+        Rails.logger.info("EVM Cache Miss: #{cache_key}")
+        
         # If not in cache, calculate and store the result
         create_evm_data_with_cache
       end
+      
+      # Log cache hit for debugging
+      Rails.logger.info("EVM Cache Hit: #{cache_key}")
       
       # Extract data from cached result
       @project_evm = cached_data[:project_evm]
@@ -179,6 +188,10 @@ class EvmsController < BaseevmController
     time_entry_timestamp = latest_time_entry&.updated_on&.to_i || 0
     baseline_timestamp = latest_baseline&.updated_on&.to_i || 0
     
-    "evm_data_#{@project.id}_#{@cfg_param[:basis_date]}_#{@cfg_param[:baseline_id]}_#{issue_timestamp}_#{time_entry_timestamp}_#{baseline_timestamp}"
+    # Include more specific information in the cache key
+    baseline_id = @cfg_param[:baseline_id] || 'no_baseline'
+    no_use_baseline = @cfg_param[:no_use_baseline] ? 'true' : 'false'
+    
+    "evm_data_#{@project.id}_#{@cfg_param[:basis_date]}_#{baseline_id}_#{no_use_baseline}_#{issue_timestamp}_#{time_entry_timestamp}_#{baseline_timestamp}"
   end
 end
