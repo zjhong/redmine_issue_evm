@@ -11,16 +11,46 @@ module EvmCacheInvalidator
     project_cache_keys.each do |key|
       Rails.cache.delete(key)
     end
+    
+    # Also invalidate all projects cache since it contains data for this project
+    invalidate_all_projects_cache
+    
+    # Also invalidate EVM members cache since it might contain data for this project
+    invalidate_evm_members_cache
   end
   
   # Invalidate EVM cache for all projects
   def self.invalidate_all_caches
     # Find all cache keys that match the EVM pattern
     cache_keys = Rails.cache.instance_variable_get(:@data).try(:keys) || []
-    evm_cache_keys = cache_keys.select { |key| key.to_s.include?("evm_project_") || key.to_s.include?("evm_data_") }
+    evm_cache_keys = cache_keys.select { |key| key.to_s.include?("evm_project_") || key.to_s.include?("evm_data_") || key.to_s.include?("all_projects_evm_") || key.to_s.include?("evm_members_") }
     
     # Delete each matching cache key
     evm_cache_keys.each do |key|
+      Rails.cache.delete(key)
+    end
+  end
+  
+  # Invalidate the all projects EVM cache
+  def self.invalidate_all_projects_cache
+    # Find all cache keys that match the all projects EVM pattern
+    cache_keys = Rails.cache.instance_variable_get(:@data).try(:keys) || []
+    all_projects_cache_keys = cache_keys.select { |key| key.to_s.include?("all_projects_evm_") }
+    
+    # Delete each matching cache key
+    all_projects_cache_keys.each do |key|
+      Rails.cache.delete(key)
+    end
+  end
+  
+  # Invalidate the EVM members cache
+  def self.invalidate_evm_members_cache
+    # Find all cache keys that match the EVM members pattern
+    cache_keys = Rails.cache.instance_variable_get(:@data).try(:keys) || []
+    evm_members_cache_keys = cache_keys.select { |key| key.to_s.include?("evm_members_") }
+    
+    # Delete each matching cache key
+    evm_members_cache_keys.each do |key|
       Rails.cache.delete(key)
     end
   end

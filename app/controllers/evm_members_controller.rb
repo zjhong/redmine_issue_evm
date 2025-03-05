@@ -10,17 +10,58 @@ class EvmMembersController < ApplicationController
     sort_init 'name', 'asc'
     sort_update %w(name bac complete pv ev ac sv cv spi cpi cr eac etc vac tcpi)
     
+    # Generate cache key
+    cache_key = generate_evm_members_cache_key
+    
+    # Try to fetch from cache first
+    cached_data = Rails.cache.fetch(cache_key) do
+      # If not in cache, calculate and store the result
+      calculate_evm_members_data
+    end
+    
+    # Extract data from cached result
+    @members = cached_data[:members]
+    @member_evm_data = cached_data[:member_evm_data]
+    
+    # Apply sorting based on sort_clause (this is done after cache retrieval to allow different sort options)
+    if sort_clause.any?
+      sort_column = sort_clause.first.first
+      sort_direction = sort_clause.first.last
+      
+      @member_evm_data.sort! do |a, b|
+        value_a = a[sort_column.to_sym] || 0
+        value_b = b[sort_column.to_sym] || 0
+        
+        if sort_column == 'name'
+          result = value_a.to_s.downcase <=> value_b.to_s.downcase
+        else
+          result = value_a.to_f <=> value_b.to_f
+        end
+        
+        sort_direction == 'asc' ? result : -result
+      end
+    end
+    
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  private
+  
+  # Calculate EVM data for members
+  def calculate_evm_members_data
     # Get all active users who have logged time or been assigned to issues
-    @members = User.active.where(type: 'User')
+    members = User.active.where(type: 'User')
                   .joins("LEFT JOIN time_entries ON time_entries.user_id = users.id")
                   .joins("LEFT JOIN issues ON issues.assigned_to_id = users.id")
                   .where("time_entries.id IS NOT NULL OR issues.id IS NOT NULL")
                   .distinct
     
     # Get EVM data for members
-    @member_evm_data = []
+    member_evm_data = []
     
-    @members.each do |member|
+    members.each do |member|
       # Get all issues assigned to this member
       member_issues = Issue.visible.where(assigned_to_id: member.id)
       
@@ -78,7 +119,7 @@ class EvmMembersController < ApplicationController
       tcpi = (bac - ev).zero? || (bac - ac).zero? ? 0 : (bac - ev) / (bac - ac) # To Complete Performance Index
 
       # Store member data with all metrics
-      @member_evm_data << {
+      member_evm_data << {
         name: member.name,
         bac: bac.round(2),
         complete: complete,
@@ -97,31 +138,27 @@ class EvmMembersController < ApplicationController
       }
     end
     
-    # Apply sorting based on sort_clause
-    if sort_clause.any?
-      sort_column = sort_clause.first.first
-      sort_direction = sort_clause.first.last
-      
-      @member_evm_data.sort! do |a, b|
-        value_a = a[sort_column.to_sym] || 0
-        value_b = b[sort_column.to_sym] || 0
-        
-        if sort_column == 'name'
-          result = value_a.to_s.downcase <=> value_b.to_s.downcase
-        else
-          result = value_a.to_f <=> value_b.to_f
-        end
-        
-        sort_direction == 'asc' ? result : -result
-      end
-    end
-    
-    respond_to do |format|
-      format.html
-    end
+    # Return a hash with all the calculated data
+    {
+      members: members,
+      member_evm_data: member_evm_data
+    }
   end
   
-  private
+  # Generate a cache key for EVM members data
+  def generate_evm_members_cache_key
+    # Get the latest updated issue
+    latest_issue = Issue.order(updated_on: :desc).first
+    
+    # Get the latest time entry
+    latest_time_entry = TimeEntry.order(updated_on: :desc).first
+    
+    # Create a cache key with current date and latest updates
+    issue_timestamp = latest_issue&.updated_on&.to_i || 0
+    time_entry_timestamp = latest_time_entry&.updated_on&.to_i || 0
+    
+    "evm_members_#{Date.today.to_s}_#{issue_timestamp}_#{time_entry_timestamp}"
+  end
   
   def calculate_planned_value(issues)
     today = Date.today
