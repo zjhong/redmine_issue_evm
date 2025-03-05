@@ -34,10 +34,25 @@ class EvmsController < BaseevmController
       # selectable baseline
       @selectable_baseline = selectable_baseline_list(@project)
       @cfg_param[:baseline_id] = default_baseline_id
-      # calculate EVM (project)
-      create_evm_data
-      # create other information
+      
+      # Calculate EVM data with caching
+      cache_key = generate_evm_cache_key
+      
+      # Try to fetch from cache first
+      cached_data = Rails.cache.fetch(cache_key) do
+        # If not in cache, calculate and store the result
+        create_evm_data_with_cache
+      end
+      
+      # Extract data from cached result
+      @project_evm = cached_data[:project_evm]
+      @evm_chart_data = cached_data[:evm_chart_data]
+      @performance_chart_data = cached_data[:performance_chart_data]
+      @no_data = cached_data[:no_data]
+      
+      # Create other information (not cached)
       create_other_information
+      
       # for create report
       @report_param = {}
       @report_param[:status_date] = @cfg_param[:basis_date]
@@ -66,25 +81,45 @@ class EvmsController < BaseevmController
 
   private
 
-  # create EVN data
+  # create EVN data with caching
   #
-  def create_evm_data
+  def create_evm_data_with_cache
     # baseline
     baselines = project_baseline @cfg_param[:baseline_id]
     # issues of project include disendants
     issues = evm_issues(@project)
     # spent time of project include disendants
     actual_cost = evm_costs(@project)
-    @no_data = issues.blank?
+    no_data = issues.blank?
     # calculate EVM
-    @project_evm = CalculateEvm.new(baselines,
-                                    issues,
-                                    actual_cost,
-                                    @cfg_param)
+    project_evm = CalculateEvm.new(baselines,
+                                  issues,
+                                  actual_cost,
+                                  @cfg_param)
     # create chart data
-    @evm_chart_data = evm_chart_data(@project_evm)
+    evm_chart_data = evm_chart_data(project_evm)
     # create performance chart data
-    @performance_chart_data = performance_chart_data(@project_evm)
+    performance_chart_data = performance_chart_data(project_evm)
+    
+    # Return a hash with all the calculated data
+    {
+      project_evm: project_evm,
+      evm_chart_data: evm_chart_data,
+      performance_chart_data: performance_chart_data,
+      no_data: no_data
+    }
+  end
+
+  # create EVN data
+  # This method is kept for backward compatibility
+  #
+  def create_evm_data
+    # Use the cached version
+    cached_data = create_evm_data_with_cache
+    @project_evm = cached_data[:project_evm]
+    @evm_chart_data = cached_data[:evm_chart_data]
+    @performance_chart_data = cached_data[:performance_chart_data]
+    @no_data = cached_data[:no_data]
   end
 
   # create other information data
@@ -119,5 +154,31 @@ class EvmsController < BaseevmController
     else
       params[:evmbaseline_id]
     end
+  end
+  
+  # Generate a cache key for EVM data
+  def generate_evm_cache_key
+    # Get the latest updated issue in the project and its descendants
+    latest_issue = Issue.cross_project_scope(@project, "descendants")
+                        .order(updated_on: :desc)
+                        .first
+    
+    # Get the latest time entry
+    latest_time_entry = TimeEntry.joins(:issue)
+                                 .where(issues: { project_id: @project.id })
+                                 .order(updated_on: :desc)
+                                 .first
+    
+    # Get the latest baseline
+    latest_baseline = Evmbaseline.where(project_id: @project.id)
+                                 .order(updated_on: :desc)
+                                 .first
+    
+    # Create a cache key with project ID, basis date, baseline ID, and latest updates
+    issue_timestamp = latest_issue&.updated_on&.to_i || 0
+    time_entry_timestamp = latest_time_entry&.updated_on&.to_i || 0
+    baseline_timestamp = latest_baseline&.updated_on&.to_i || 0
+    
+    "evm_data_#{@project.id}_#{@cfg_param[:basis_date]}_#{@cfg_param[:baseline_id]}_#{issue_timestamp}_#{time_entry_timestamp}_#{baseline_timestamp}"
   end
 end

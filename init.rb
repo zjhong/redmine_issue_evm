@@ -1,6 +1,7 @@
 require "redmine"
 require "holidays/core_extensions/date"
 require_relative "lib/hourly_rates_hook_listener"
+require_relative "lib/evm_cache_invalidator"
 
 
 # Extention for ate class
